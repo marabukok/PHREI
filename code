@@ -1,0 +1,893 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct  1 16:23:19 2024
+
+@author: marko
+"""
+import openpyxl
+import pandas as pd
+from tkinter import *
+from tkinter import messagebox
+from tkinter import filedialog
+import customtkinter
+
+from csv import *
+from openpyxl import workbook
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+from io import StringIO
+###________________________________________
+
+
+customtkinter.set_appearance_mode("dark")
+
+def Clear():
+    IDP.delete(0, END)
+    CaP.delete(0, END)
+    KP.delete(0, END)
+    NaP.delete(0, END)
+    pHP.delete(0, END)
+    TP.delete(0, END)
+    S2P.delete(0, END)
+    S6P.delete(0, END)
+    FP.delete(0, END)
+    ClP.delete(0, END)
+    BrP.delete(0, END)
+    LiP.delete(0, END)
+    MgP.delete(0, END)
+    Fe2P.delete(0, END)
+    Fe3P.delete(0, END)
+    MnP.delete(0, END)
+    SiP.delete(0, END)
+    ZnP.delete(0, END)
+    BaP.delete(0, END)
+    PbP.delete(0, END)
+    AlkP.delete(0, END)
+
+def regcompprod():
+    # Global declarations
+    global IDP, CaP, NaP, KP, pHP, TP, S2P, S6P, FP, ClP, BrP, LiP, MgP, Fe2P, Fe3P, MnP, SiP, ZnP, BaP, PbP, AlkP
+
+    # Retrieve the values from the Entry widgets
+    IDP = IDP.get()
+    CaP = CaP.get()
+    NaP = NaP.get()
+    KP = KP.get()
+    pHP = pHP.get()
+    TP = TP.get()
+    S2P = S2P.get()
+    S6P = S6P.get()
+    FP = FP.get()
+    ClP = ClP.get()
+    BrP = BrP.get()
+    LiP = LiP.get()
+    MgP = MgP.get()
+    Fe2P = Fe2P.get()
+    Fe3P = Fe3P.get()
+    MnP = MnP.get()
+    SiP = SiP.get()
+    ZnP = ZnP.get()
+    BaP = BaP.get()
+    PbP = PbP.get()
+    AlkP = AlkP.get()
+
+    messagebox.showinfo("Success", "Production well fluid composition saved")
+
+compositionP = customtkinter.CTk()
+#compositionP.configure(bg="green")
+
+compositionP.title("Composition of production well fluid")
+compositionP.geometry("400x800")
+font_family = "Gill Sans"
+
+label0 = customtkinter.CTkLabel(compositionP, text="ID: ")
+label1 = customtkinter.CTkLabel(compositionP, text="Production temperature (°C): ")
+label2 = customtkinter.CTkLabel(compositionP, text="pH: ")
+label3 = customtkinter.CTkLabel(compositionP, text="Ca²⁺: ")
+label4 = customtkinter.CTkLabel(compositionP, text="K⁺: ")
+label5 = customtkinter.CTkLabel(compositionP, text="Na⁺: ")
+label6 = customtkinter.CTkLabel(compositionP, text="S²⁻: ")
+label7 = customtkinter.CTkLabel(compositionP, text="S⁶⁺ as SO₄²⁻: ")
+label8 = customtkinter.CTkLabel(compositionP, text="F⁻: ")
+label9 = customtkinter.CTkLabel(compositionP, text="Cl⁻: ")
+label10 = customtkinter.CTkLabel(compositionP, text="Br⁻: ")
+label11 = customtkinter.CTkLabel(compositionP, text="Li⁺: ")
+label12 = customtkinter.CTkLabel(compositionP, text="Mg²⁺: ")
+label13 = customtkinter.CTkLabel(compositionP, text="Fe²⁺: ")
+label14 = customtkinter.CTkLabel(compositionP, text="Fe³⁺: ")
+label15 = customtkinter.CTkLabel(compositionP, text="Mn: ")
+label16 = customtkinter.CTkLabel(compositionP, text="Si: ")
+label17 = customtkinter.CTkLabel(compositionP, text="Zn: ")
+label18 = customtkinter.CTkLabel(compositionP, text="Ba⁺: ")
+label19 = customtkinter.CTkLabel(compositionP, text="Pb: ")
+label20 = customtkinter.CTkLabel(compositionP, text="Alkalinity as HCO₃⁻: ")
+ # Alkalinity
+
+IDP=Entry(compositionP,width=30,borderwidth=3)
+TP=Entry(compositionP,width=30,borderwidth=3)
+pHP=Entry(compositionP,width=30,borderwidth=3)
+CaP=Entry(compositionP,width=30,borderwidth=3)
+KP=Entry(compositionP,width=30,borderwidth=3)
+NaP=Entry(compositionP,width=30,borderwidth=3)
+S2P=Entry(compositionP,width=30,borderwidth=3)
+S6P=Entry(compositionP,width=30,borderwidth=3)
+FP=Entry(compositionP,width=30,borderwidth=3)
+ClP=Entry(compositionP,width=30,borderwidth=3)
+BrP=Entry(compositionP,width=30,borderwidth=3)
+LiP=Entry(compositionP,width=30,borderwidth=3)
+MgP=Entry(compositionP,width=30,borderwidth=3)
+ClP=Entry(compositionP,width=30,borderwidth=3)
+Fe2P=Entry(compositionP,width=30,borderwidth=3)
+Fe3P=Entry(compositionP,width=30,borderwidth=3)
+MnP=Entry(compositionP,width=30,borderwidth=3)
+SiP=Entry(compositionP,width=30,borderwidth=3)
+ZnP=Entry(compositionP,width=30,borderwidth=3)
+BaP=Entry(compositionP,width=30,borderwidth=3)
+PbP=Entry(compositionP,width=30,borderwidth=3)
+AlkP=Entry(compositionP,width=30,borderwidth=3)
+
+IDP.insert(1, "Production well")
+
+pHP.insert(0,"7")
+CaP.insert(0, "0")
+NaP.insert(0, "0")
+KP.insert(0, "0")
+TP.insert(0, "0")
+S2P.insert(0, "0")
+S6P.insert(0, "0")
+FP.insert(0, "0")
+ClP.insert(0, "0")
+BrP.insert(0, "0")
+LiP.insert(0, "0")
+MgP.insert(0, "0")
+Fe2P.insert(0, "0")
+Fe3P.insert(0, "0")
+MnP.insert(0, "0")
+SiP.insert(0, "0")
+ZnP.insert(0, "0")
+BaP.insert(0, "0")
+PbP.insert(0, "0")
+AlkP.insert(0, "0")
+
+# save = customtkinter.CTkButton(compositionP, text="Save", command=lambda: [regcompprod(), Save()])
+add = customtkinter.CTkButton(compositionP, text="Add", command=lambda: [regcompprod(), compositionP.quit()])
+clear = customtkinter.CTkButton(compositionP, text="Clear", command=Clear)
+Exit = customtkinter.CTkButton(compositionP, text="Exit", command=compositionP.quit)
+
+
+label0.grid(row=0, column=0)
+label1.grid(row=1, column=0)
+label2.grid(row=2, column=0)
+label3.grid(row=3, column=0)
+label4.grid(row=4, column=0)
+label5.grid(row=5, column=0)
+label6.grid(row=6, column=0)
+label7.grid(row=7, column=0)
+label8.grid(row=8, column=0)
+label9.grid(row=9, column=0)
+label10.grid(row=10, column=0)
+label11.grid(row=11, column=0)
+label12.grid(row=12, column=0)
+label13.grid(row=13, column=0)
+label14.grid(row=14, column=0)
+label15.grid(row=15, column=0)
+label16.grid(row=16, column=0)
+label17.grid(row=17, column=0)
+label18.grid(row=18, column=0)
+label19.grid(row=19, column=0)
+label20.grid(row=20, column=0)
+#label21.grid(row=21, column=0)
+#label22.grid(row=22, column=0)
+#label23.grid(row=23, column=0)
+
+IDP.grid(row=0, column=1)
+TP.grid(row=1, column=1)
+pHP.grid(row=2, column=1)
+CaP.grid(row=3, column=1)
+KP.grid(row=4, column=1)
+NaP.grid(row=5, column=1)
+S2P.grid(row=6, column=1)
+S6P.grid(row=7, column=1)
+FP.grid(row=8, column=1)
+ClP.grid(row=9, column=1)
+BrP.grid(row=10, column=1)
+LiP.grid(row=11, column=1)
+MgP.grid(row=12, column=1)
+Fe2P.grid(row=13, column=1)
+Fe3P.grid(row=14, column=1)
+MnP.grid(row=15, column=1)
+SiP.grid(row=16, column=1)
+ZnP.grid(row=17, column=1)
+BaP.grid(row=18, column=1)
+PbP.grid(row=19, column=1)
+AlkP.grid(row=20, column=1)
+
+
+add.grid(row=21,column=0,columnspan=2)
+clear.grid(row=22,column=0,columnspan=2)
+Exit.grid(row=23,column=0,columnspan=2)
+
+compositionP.mainloop()
+
+
+def ClearI():
+    IDI.delete(0, END)
+    CaI.delete(0, END)
+    KI.delete(0, END)
+    NaI.delete(0, END)
+    pHI.delete(0, END)
+    TI.delete(0, END)
+    S2I.delete(0, END)
+    S6I.delete(0, END)
+    FI.delete(0, END)
+    ClI.delete(0, END)
+    BrI.delete(0, END)
+    LiI.delete(0, END)
+    MgI.delete(0, END)
+    Fe2I.delete(0, END)
+    Fe3I.delete(0, END)
+    MnI.delete(0, END)
+    SiI.delete(0, END)
+    ZnI.delete(0, END)
+    BaI.delete(0, END)
+    PbI.delete(0, END)
+    AlkI.delete(0, END)
+
+def regcompinj():
+    # Global declarations
+    global IDI, CaI, NaI, KI, pHI, TI, S2I, S6I, FI, ClI, BrI, LiI, MgI, Fe2I, Fe3I, MnI, SiI, ZnI, BaI, PbI, AlkI
+
+    # Retrieve the values from the Entry widgets
+    IDI = IDI.get()
+    CaI = CaI.get()
+    NaI = NaI.get()
+    KI = KI.get()
+    pHI = pHI.get()
+    TI = TI.get()
+    S2I = S2I.get()
+    S6I = S6I.get()
+    FI = FI.get()
+    ClI = ClI.get()
+    BrI = BrI.get()
+    LiI = LiI.get()
+    MgI = MgI.get()
+    Fe2I = Fe2I.get()
+    Fe3I = Fe3I.get()
+    MnI = MnI.get()
+    SiI = SiI.get()
+    ZnI = ZnI.get()
+    BaI = BaI.get()
+    PbI = PbI.get()
+    AlkI = AlkI.get()
+
+    messagebox.showinfo("Success", "Injection well fluid composition saved")
+
+compositionI = customtkinter.CTk()
+
+compositionI.title("Composition of INJECTION well fluid")
+compositionI.geometry("400x800")
+font_style = ("Gill Sans", 10)
+label0 = customtkinter.CTkLabel(compositionI, text="ID: ")
+label1 = customtkinter.CTkLabel(compositionI, text="Reservoir temperature (°C): ")
+label2 = customtkinter.CTkLabel(compositionI, text="pH: ")
+label3 = customtkinter.CTkLabel(compositionI, text="Ca²⁺: ")
+label4 = customtkinter.CTkLabel(compositionI, text="K⁺: ")
+label5 = customtkinter.CTkLabel(compositionI, text="Na⁺: ")
+label6 = customtkinter.CTkLabel(compositionI, text="S²⁻: ")
+label7 = customtkinter.CTkLabel(compositionI, text="S⁶⁺ (as SO₄²⁻): ")
+label8 = customtkinter.CTkLabel(compositionI, text="F⁻: ")
+label9 = customtkinter.CTkLabel(compositionI, text="Cl⁻: ")
+label10 = customtkinter.CTkLabel(compositionI, text="Br⁻: ")
+label11 = customtkinter.CTkLabel(compositionI, text="Li⁺: ")
+label12 = customtkinter.CTkLabel(compositionI, text="Mg²⁺: ")
+label13 = customtkinter.CTkLabel(compositionI, text="Fe²⁺: ")
+label14 = customtkinter.CTkLabel(compositionI, text="Fe³⁺: ")
+label15 = customtkinter.CTkLabel(compositionI, text="Mn: ")
+label16 = customtkinter.CTkLabel(compositionI, text="Si: ")
+label17 = customtkinter.CTkLabel(compositionI, text="Zn: ")
+label18 = customtkinter.CTkLabel(compositionI, text="Ba²⁺: ")
+label19 = customtkinter.CTkLabel(compositionI, text="Pb: ")
+label20 = customtkinter.CTkLabel(compositionI, text="Alkalinity as HCO₃⁻: ")
+
+
+IDI = Entry(compositionI, width=30, borderwidth=3)
+TI = Entry(compositionI, width=30, borderwidth=3)
+pHI = Entry(compositionI, width=30, borderwidth=3)
+CaI = Entry(compositionI, width=30, borderwidth=3)
+KI = Entry(compositionI, width=30, borderwidth=3)
+NaI = Entry(compositionI, width=30, borderwidth=3)
+S2I = Entry(compositionI, width=30, borderwidth=3)
+S6I = Entry(compositionI, width=30, borderwidth=3)
+FI = Entry(compositionI, width=30, borderwidth=3)
+ClI = Entry(compositionI, width=30, borderwidth=3)
+BrI = Entry(compositionI, width=30, borderwidth=3)
+LiI = Entry(compositionI, width=30, borderwidth=3)
+MgI = Entry(compositionI, width=30, borderwidth=3)
+Fe2I = Entry(compositionI, width=30, borderwidth=3)
+Fe3I = Entry(compositionI, width=30, borderwidth=3)
+MnI = Entry(compositionI, width=30, borderwidth=3)
+SiI = Entry(compositionI, width=30, borderwidth=3)
+ZnI = Entry(compositionI, width=30, borderwidth=3)
+BaI = Entry(compositionI, width=30, borderwidth=3)
+PbI = Entry(compositionI, width=30, borderwidth=3)
+AlkI = Entry(compositionI, width=30, borderwidth=3)
+
+IDI.insert(1, "Injection well")
+
+pHI.insert(0, "7")
+CaI.insert(0, "0")
+NaI.insert(0, "0")
+KI.insert(0, "0")
+TI.insert(0, "0")
+S2I.insert(0, "0")
+S6I.insert(0, "0")
+FI.insert(0, "0")
+ClI.insert(0, "0")
+BrI.insert(0, "0")
+LiI.insert(0, "0")
+MgI.insert(0, "0")
+Fe2I.insert(0, "0")
+Fe3I.insert(0, "0")
+MnI.insert(0, "0")
+SiI.insert(0, "0")
+ZnI.insert(0, "0")
+BaI.insert(0, "0")
+PbI.insert(0, "0")
+AlkI.insert(0, "0")
+
+add = customtkinter.CTkButton(compositionI, text="Add", command=lambda: [regcompinj(), compositionI.quit()])
+clear = customtkinter.CTkButton(compositionI, text="Clear", command=ClearI)
+Exit = customtkinter.CTkButton(compositionI, text="Exit", command=compositionI.quit)
+
+label0.grid(row=0, column=0)
+label1.grid(row=1, column=0)
+label2.grid(row=2, column=0)
+label3.grid(row=3, column=0)
+label4.grid(row=4, column=0)
+label5.grid(row=5, column=0)
+label6.grid(row=6, column=0)
+label7.grid(row=7, column=0)
+label8.grid(row=8, column=0)
+label9.grid(row=9, column=0)
+label10.grid(row=10, column=0)
+label11.grid(row=11, column=0)
+label12.grid(row=12, column=0)
+label13.grid(row=13, column=0)
+label14.grid(row=14, column=0)
+label15.grid(row=15, column=0)
+label16.grid(row=16, column=0)
+label17.grid(row=17, column=0)
+label18.grid(row=18, column=0)
+label19.grid(row=19, column=0)
+label20.grid(row=20, column=0)
+
+IDI.grid(row=0, column=1)
+TI.grid(row=1, column=1)
+pHI.grid(row=2, column=1)
+CaI.grid(row=3, column=1)
+KI.grid(row=4, column=1)
+NaI.grid(row=5, column=1)
+S2I.grid(row=6, column=1)
+S6I.grid(row=7, column=1)
+FI.grid(row=8, column=1)
+ClI.grid(row=9, column=1)
+BrI.grid(row=10, column=1)
+LiI.grid(row=11, column=1)
+MgI.grid(row=12, column=1)
+Fe2I.grid(row=13, column=1)
+Fe3I.grid(row=14, column=1)
+MnI.grid(row=15, column=1)
+SiI.grid(row=16, column=1)
+ZnI.grid(row=17, column=1)
+BaI.grid(row=18, column=1)
+PbI.grid(row=19, column=1)
+AlkI.grid(row=20, column=1)
+
+add.grid(row=21, column=0, columnspan=2)
+clear.grid(row=22, column=0, columnspan=2)
+Exit.grid(row=23, column=0, columnspan=2)
+
+compositionI.mainloop()
+      
+def regcompgas(): 
+    # Global declarations
+    global O2, CH4, N2, CO2
+
+    # Retrieve the values from the Entry widgets
+    O2 = O2.get()
+    N2 = N2.get()
+    CO2 = CO2.get()
+    CH4 = CH4.get()
+
+    messagebox.showinfo("Success", "Reservoir gas composition saved")
+
+
+def Clear_gas():
+    O2.delete(0, END)
+    N2.delete(0, END)
+    CH4.delete(0, END)
+    CO2.delete(0, END)
+
+# Initialize the main window
+composition_gas = customtkinter.CTk()
+composition_gas.title("Composition of Reservoir Gas - Separated Gas")
+composition_gas.geometry("400x300")
+
+# Create labels for gas composition
+label0 = customtkinter.CTkLabel(composition_gas, text="Oxygen (%): ")
+label1 = customtkinter.CTkLabel(composition_gas, text="Nitrogene (%): ")  
+label2 = customtkinter.CTkLabel(composition_gas, text="Methane (%): ")
+label3 = customtkinter.CTkLabel(composition_gas, text="Carbon-dioxide (%): ")
+
+# Create entry fields for gas composition
+O2 = Entry(composition_gas, width=30, borderwidth=3)
+N2 = Entry(composition_gas, width=30, borderwidth=3)
+CH4 = Entry(composition_gas, width=30, borderwidth=3)
+CO2 = Entry(composition_gas, width=30, borderwidth=3)
+
+# Set default values
+O2.insert(0, "0")
+N2.insert(0, "0")
+CH4.insert(0, "0")
+CO2.insert(0, "0")
+
+# Create buttons
+add = customtkinter.CTkButton(composition_gas, text="Add", command=lambda: [regcompgas(), composition_gas.quit()])
+clear = customtkinter.CTkButton(composition_gas, text="Clear", command=Clear_gas)
+Exit = customtkinter.CTkButton(composition_gas, text="Exit", command=composition_gas.quit)
+
+# Layout using grid
+label0.grid(row=0, column=0)
+label1.grid(row=1, column=0)
+label2.grid(row=2, column=0)
+label3.grid(row=3, column=0)
+
+O2.grid(row=0, column=1)
+N2.grid(row=1, column=1)
+CH4.grid(row=2, column=1)
+CO2.grid(row=3, column=1)
+
+add.grid(row=4, column=0, columnspan=2)
+clear.grid(row=5, column=0, columnspan=2)
+Exit.grid(row=6, column=0, columnspan=2)
+
+# Start the main loop
+composition_gas.mainloop()
+
+# List of minerals excluding gaseous ones (those with '(g)')
+minerals = [
+"Al(OH)3(a)", "Albite", "Alunite", "Anhydrite", "Anglesite", "Anorthite", 
+"Aragonite", "Barite", "Calcite", "Ca-Montmorillonite", "Celestite", "Cerussite", 
+"Chalcedony", "Chlorite(14A)", "Chrysotile", "Cd(OH)2", "CdSiO3", "CdSO4", 
+"Dolomite", "Fe(OH)3(a)", "FeS(ppt)", "Fluorite", "Gibbsite", "Gypsum", 
+"Halite", "Hausmannite", "Hematite", "Hydroxyapatite", "Illite", "Jarosite-K", 
+"K-feldspar", "K-mica", "Kaolinite", "Magnetite", "Mackinawite", "Melanterite", 
+"Manganite", "Otavite", "Pyrite", "Pyrochroite", "Pyrolusite", "Quartz", 
+"Rhodochrosite", "Sepiolite", "Sepiolite(d)", "Siderite", "SiO2(a)", 
+"Smithsonite", "Sphalerite", "Strontianite", "Sulfur", "Sylvite", "Talc", 
+"Vivianite", "Willemite", "Witherite", "Zn(OH)2(e)"
+
+]
+
+# Initialize the main CustomTkinter window as "reservoir"
+customtkinter.set_appearance_mode("System")  # Modes: "System" (default), "Dark", "Light"
+customtkinter.set_default_color_theme("blue")  # Customize the color theme
+
+reservoir = customtkinter.CTk()  # Create the CustomTkinter main window
+reservoir.title("Mineral Selector")
+reservoir.geometry("400x600")  # Set the window size
+
+# Function to get selected minerals and save them as variables
+def get_selected_minerals():
+    selected_indices = mineral_listbox.curselection()
+    selected_minerals = [minerals[i] for i in selected_indices]
+
+    # Update the label to show the selected minerals
+    selected_label.configure(text=f"Selected Minerals: {', '.join(selected_minerals)}")
+    
+    # Saving selected minerals as variables
+    save_selected_minerals_as_variables(selected_minerals)
+
+# Function to save selected minerals as variables
+def save_selected_minerals_as_variables(selected_minerals):
+    # Fill the list with `#` if less than 8 minerals are selected
+    while len(selected_minerals) < 8:
+        selected_minerals.append('#')
+
+    # Save each mineral as a separate variable
+    for i, mineral in enumerate(selected_minerals[:8], start=1):
+        # Create a variable name like "reservoir_mineral_1", "reservoir_mineral_2", etc.
+        globals()[f'reservoir_mineral_{i}'] = mineral
+    
+    # Print the variables for demonstration (You can remove this in production)
+    for i in range(1, 9):  # Always print all 8 variables
+        print(f'reservoir_mineral_{i} =', globals()[f'reservoir_mineral_{i}'])
+
+# Label for multi-selection of minerals
+label = customtkinter.CTkLabel(reservoir, text="Select Minerals:")
+label.pack(pady=(20, 10))
+
+# Create a standard tkinter Listbox for multi-selection
+mineral_listbox = Listbox(reservoir, selectmode="multiple", height=20, width=30)
+for mineral in minerals:
+    mineral_listbox.insert(END, mineral)
+mineral_listbox.pack(pady=(0, 20))
+
+# Button to save selections
+save_button = customtkinter.CTkButton(reservoir, text="Save Selection", command=get_selected_minerals)
+save_button.pack(pady=(10, 20))
+
+# Label to display selected minerals
+selected_label = customtkinter.CTkLabel(reservoir, text="Selected Minerals: None")
+selected_label.pack(pady=(0, 20))
+
+# Run the CustomTkinter main loop
+reservoir.mainloop()
+
+window = customtkinter.CTk()
+window.configure(bg="#f0f0f0")
+window.title("Parameters")
+
+# Existing input fields
+flowrate_label = customtkinter.CTkLabel(window, text="Flow rate (l/min):")
+flowrate_label.pack()
+flowrate = Entry(window)
+flowrate.pack()
+flowrate.insert(0, "350")
+
+# Változó a checkbox állapotának tárolásához
+checkbox_var = IntVar()
+
+# Global variable
+fluid_air_contact = ""
+
+# Függvény, amely a checkbox állapotától függően beállítja a `fluid_air_contact` változót
+def update_fluid_air_contact():
+    global fluid_air_contact
+    if checkbox_var.get():
+        fluid_air_contact = """
+use solution 1
+
+GAS_PHASE 1 #Fluid air contact (Parameter 2) (MODEL STEP 2)
+-fixed pressure
+-pressure    1.013
+-temperature 20
+O2(g) 0.216
+CO2(g) 0.04
+N2(g) 0.78
+
+end
+Save solution 1
+"""
+        print("fluid_air_contact saved:")
+        print(fluid_air_contact)
+    else:
+        fluid_air_contact = "#"
+        print("fluid_air_contact deleted")
+
+# Checkbox létrehozása
+checkbox = customtkinter.CTkCheckBox(window, text="System is open to air", variable=checkbox_var, command=update_fluid_air_contact)
+checkbox.pack(pady=20)
+
+
+porosity_label = customtkinter.CTkLabel(window, text="Initial porosity:")
+porosity_label.pack()
+porosity = Entry(window)
+porosity.pack()
+porosity.insert(0, "0.3")
+
+gp_diameter_out_label = customtkinter.CTkLabel(window, text="Gravel pack diameter out (m):")
+gp_diameter_out_label.pack()
+gp_diameter_out = Entry(window)
+gp_diameter_out.pack()
+gp_diameter_out.insert(0, "0.22")
+
+gp_diameter_in_label = customtkinter.CTkLabel(window, text="Gravel pack diameter in (m):")
+gp_diameter_in_label.pack()
+gp_diameter_in = Entry(window)
+gp_diameter_in.pack()
+gp_diameter_in.insert(0, "0.114")
+
+sphericity_label = customtkinter.CTkLabel(window, text="Sphericity:")
+sphericity_label.pack()
+sphericity = Entry(window)
+sphericity.pack()
+sphericity.insert(0, "1")
+
+grainsize_label = customtkinter.CTkLabel(window, text="Average grain size of the gravel pack:")
+grainsize_label.pack()
+grainsize = Entry(window)
+grainsize.pack()
+grainsize.insert(0, "0.0015")
+
+# New screened_length input field
+screened_length_label = customtkinter.CTkLabel(window, text="Screened length (m):")
+screened_length_label.pack()
+screened_length = Entry(window)
+screened_length.pack()
+screened_length.insert(0, "75.5")
+
+
+reinjection_temp_label = customtkinter.CTkLabel(window, text="Reinjection temperature (°C):")
+reinjection_temp_label.pack()
+reinjection_temp = Entry(window)
+reinjection_temp.pack()
+reinjection_temp.insert(0, "25")  # Default value, change if needed
+
+# Register function
+def register():
+    global flowrate, porosity, gp_diameter_in, gp_diameter_out, sphericity, grainsize, screened_length, reinjection_temp
+    flowrate = flowrate.get()
+    porosity = porosity.get()
+    gp_diameter_out = gp_diameter_out.get()
+    gp_diameter_in = gp_diameter_in.get()
+    sphericity = sphericity.get()
+    grainsize = grainsize.get()
+    screened_length = screened_length.get()
+    reinjection_temp = reinjection_temp.get()
+    
+    messagebox.showinfo("Success", "Operational parameters saved")
+
+# Submit button
+submit_button = customtkinter.CTkButton(window, text="Submit", command=lambda: [register(), window.quit()])
+submit_button.pack()
+
+window.mainloop()
+
+# Convert inputs to float after window is closed
+flowrate = float(flowrate)
+porosity = float(porosity)
+gp_diameter_in = float(gp_diameter_in)
+gp_diameter_out = float(gp_diameter_out)
+sphericity = float(sphericity)
+grainsize = float(grainsize)
+screened_length = float(screened_length)  # New variable conversion
+reinjection_temp = float(reinjection_temp)
+
+CaP = float(CaP)
+NaP = float(NaP)
+KP = float(KP)
+pHP = float(pHP)
+TP = float(TP)
+S2P = float(S2P)
+S6P = float(S6P)
+FP = float(FP)
+ClP = float(ClP)
+BrP = float(BrP)
+LiP = float(LiP)
+MgP = float(MgP)
+Fe2P = float(Fe2P)
+Fe3P = float(Fe3P)
+MnP = float(MnP)
+SiP = float(SiP)
+ZnP = float(ZnP)
+BaP = float(BaP)
+PbP = float(PbP)
+AlkP = float(AlkP)
+
+O2 = 1013/100*float(O2)/1000
+N2 = 1013/100*float(N2)/1000
+CO2 = 1013/100*float(CO2)/1000
+CH4 = 1013/100*float(CH4)/1000
+#
+
+command = f"""
+SOLUTION 1 #production well fluid (on surface)(Parameter 1) (MODEL STEP 1)
+pH {pHP}
+temp {TP}    #TEMPERATURE TO CHANGE (Parameter 3)
+units mg/L
+#-water    1 # kg
+redox S(-2)/S(6)
+S(-2) {S2P}
+S(6) {S6P}
+F	{FP}
+Cl	{ClP} 
+Br	{BrP}
+Li	{LiP}
+Na	{NaP}
+K	{KP}
+Ca	{CaP}
+Mg	{MgP}
+Fe(3) {Fe3P}
+Fe(2) {Fe2P}
+Mn	{MnP}
+Si 	{SiP} as H2SiO3
+Zn	{ZnP}
+Ba	{BaP}
+Pb	{PbP}
+Alkalinity {AlkP} as HCO3-
+
+end
+save solution 1
+
+{fluid_air_contact} #adding gas phase representing air, if system is opened to air
+
+Use solution 1
+
+EQUILIBRIUM_PHASES 1
+    Fe(OH)3(a)  0 0 precipitate_only
+Calcite 0 0 precipitate_only
+save solution 1
+
+end
+
+use solution 1 
+REACTION_TEMPERATURE 1 #heat use at the heating system (Model step 2)
+    {TP}  {reinjection_temp}
+
+
+save solution 1
+end
+
+SOLUTION 2 #Fluid in the injection well (Parameter 1) (MODEL STEP 4)
+pH {pHI}
+temp {TI}    #TEMPERATURE TO CHANGE (Parameter 3)
+units mg/L
+#-water    1 # kg
+redox S(-2)/S(6)
+S(-2) {S2I}
+S(6) {S6I}
+F    {FI}
+Cl   {ClI} 
+Br   {BrI}
+Li   {LiI}
+Na   {NaI}
+K    {KI}
+Ca   {CaI}
+Mg   {MgI}
+Fe(3) {Fe3I}
+Fe(2) {Fe2I}
+Mn   {MnI}
+Si   {SiI} as H2SiO3
+Zn   {ZnI}
+Ba   {BaI}
+Pb   {PbI}
+Alkalinity {AlkI} as HCO3-
+
+
+GAS_PHASE 2 #gas phase in the injection well (Parameter 1)
+-fixed pressure
+-pressure 1.013
+O2(g) {O2}
+CO2(g) {CO2}
+N2(g) {N2}
+CH4(g) {CH4}
+
+EQUILIBRIUM_PHASES 1
+   {reservoir_mineral_1}    0 10
+   {reservoir_mineral_2}    0 10
+   {reservoir_mineral_3}    0 10
+   {reservoir_mineral_4}    0 10
+   {reservoir_mineral_5}    0 10
+   {reservoir_mineral_6}    0 10
+   {reservoir_mineral_7}    0 10
+   {reservoir_mineral_8}    0 10
+end
+
+Save solution 2
+end
+
+#Mixing by using Solution 1 and 2 (MODEL STEP 4)
+
+MIX 1	;1	0.1	;2	0.9	;SAVE SOLUTION 3	;END
+MIX 2	;1	0.2	;3	0.8	;SAVE SOLUTION 4	;END
+MIX 3	;1	0.3	;4	0.7	;SAVE SOLUTION 5	;END
+MIX 4	;1	0.4	;5	0.6	;SAVE SOLUTION 6	;END
+MIX 5	;1	0.5	;6	0.5	;SAVE SOLUTION 7	;END
+
+use Solution 7
+
+EQUILIBRIUM_PHASES 2
+Fe(OH)3(a) 0 0 precipitate_only
+Calcite 0 0 precipitate_only
+
+SELECTED_OUTPUT 1
+    -file                 output.sel
+    -reset                false
+    -equilibrium_phases   Calcite  Fe(OH)3(a)
+"""
+flowrate_day = flowrate*24*60
+inputname = f"{IDI}_{IDP}.dat"
+
+print(command)
+datainput = StringIO(command)
+df3 = pd.read_csv(datainput, on_bad_lines='warn')
+df3.to_csv(inputname,index=False) 
+
+phreeqc_command=f"C:/phreeqc/phreeqc.exe {inputname} output.dat PHREEQC_mod_with_magnetite_without_feoh3.DAT"
+####MOST A MEZINPUT VAN####
+os.system(phreeqc_command)
+out = pd.read_fwf("output.sel", colspecs='infer')
+
+Calcite_molL = out["Calcite"][0]
+ironhydro_molL = out["Fe(OH)3(a)"][0]
+
+Calcite_density = 2.71 #g/cm3
+Calcite_molarweight = 68.78 # g/mol
+
+ironhydro_density = 3.4 #g/cm3
+ironhydro_molarweight = 106 #"g/mol
+
+Calcite_vld = Calcite_molL*Calcite_molarweight/Calcite_density/1000*flowrate_day/1000 #Calcite formed per day m3
+ironhydro_vld = ironhydro_molL*ironhydro_molarweight/ironhydro_density/1000*flowrate_day/1000 #FeOOH3 formed per day m3
+
+gp_diameter_in = float(gp_diameter_in)
+gp_diameter_out = float(gp_diameter_out)
+
+ringv = (gp_diameter_out/2)**2*3.14*75.5-(gp_diameter_in/2)**2*3.14*75.50 #ring space volume CALCULATE FROM INPPUT
+
+iniporvol = ringv * porosity
+
+endtime = iniporvol/(Calcite_vld+ironhydro_vld)
+steps = round(endtime / 5)
+
+T = np.linspace(0, endtime, num=steps) #numpy.linspace(start, stop, num=50, endpoint=True , retstep=False, dtype=None, axis=0)
+
+dT = T[1]
+porosity = 0.3
+ringv = (gp_diameter_out/2)**2*3.14*75.5-(gp_diameter_in/2)**2*3.14*75.50 #ring space volume CALCULATE FROM INPPUT
+
+iniporvol = ringv * porosity
+
+newporvol = [0] * len(T)
+
+newporvol[0] = iniporvol
+
+for j in range(1,len(T)):
+    newporvol[j] = newporvol[j-1]-dT*(Calcite_vld+ironhydro_vld)
+
+newporosity = np.asarray(newporvol)/np.asarray(ringv)
+print(newporosity)
+#newporvolume[j] = iniporvol - V_new_c[j]
+#newporosity[j] = newporvolume[j]/ringv 
+
+#plt.plot(T,newporosity)
+perm = (sphericity)**2*((newporosity)**3*(grainsize)**2)/(180*(1-newporosity)**2)
+
+
+plt.plot(T,(newporosity))
+plt.plot(T,(perm))
+plt.yscale('log')
+#print(df2)
+
+fig, ax1 = plt.subplots()
+ig, ax1 = plt.subplots()
+
+# Plot newporosity as a line
+ax1.plot(T, newporosity, 'g-', label="Porosity")  # Just the line
+# Add markers only at every 10th data point
+ax1.scatter(T[::3], newporosity[::3], color='g', marker='o', s=5)
+
+ax1.set_xlabel('Time (Days)')
+ax1.set_ylabel('Porosity, ϵ [-]', color='g')
+ax1.tick_params(axis='y', labelcolor='g')
+
+# Create a secondary y-axis for perm
+ax2 = ax1.twinx()
+ax2.plot(T, perm, 'b-', label="Permeability")  # Just the line
+# Add markers only at every 10th data point
+ax2.scatter(T[::3], perm[::3], color='b', marker='o', s=5)
+
+ax2.set_ylabel('Permeability, K $[m^2]$', color='b')
+ax2.tick_params(axis='y', labelcolor='b')
+
+# Set the secondary y-axis (for perm) to logarithmic
+ax2.set_yscale('log')
+
+
+zero_porosity_time = np.ceil(T[np.where(newporosity <= 0)[0]])
+# Add a vertical line where porosity reaches zero
+
+if zero_porosity_time.size > 0:  # Check if there is at least one occurrence
+    plt.axvline(x=zero_porosity_time[0], color='r', linestyle='--', label=f'Porosity = 0 at {zero_porosity_time[0]:.0f} days', linewidth=2, alpha=0.7)
+
+# Add the legend, ensuring it includes all labels
+ax1.legend(loc='lower center', bbox_to_anchor=(0.1, -0.4), frameon=True)
+ax2.legend(loc='lower left', bbox_to_anchor=(0.3, -0.4), frameon=True)
+# Adjust layout to make space for the legend
+plt.tight_layout()
+
+
+#plt.title("Porosity and permeability degradation over time")
+plt.show()
