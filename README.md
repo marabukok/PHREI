@@ -1,1 +1,1 @@
-This code is created to use a Graphical User Interface for a hydrogeochemical model set-up simulating geothermal doublet systems from production until reinjection. 
+This code is created to formulte a Graphical User Interface for a hydrogeochemical model set-up simulating geothermal doublet systems from production until reinjection. The code includes a PHREEQC model set-up and post calculations.
