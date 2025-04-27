@@ -69,7 +69,7 @@ def regcompprod():
     for name in prod_entries:
         globals()[name] = prod_entries[name].get()
     unit_selected_prod = units_var_prod.get()  # elmentjük a kiválasztott egységet is
-    messagebox.showinfo("Success", f"Production well fluid composition saved with units: {unit_selected_prod}")
+    messagebox.showinfo("Success", f"Production well ({IDP}) fluid composition saved successfully")
 
 # --- Buttons ---
 add = customtkinter.CTkButton(compositionP, text="Add", command=lambda: [regcompprod(), compositionP.quit()])
@@ -131,7 +131,7 @@ def regcompinj():
     for name in inj_entries:  
         globals()[name] = inj_entries[name].get()  
     unit_selected_inj = units_var_inj.get()  # Save the selected unit  
-    messagebox.showinfo("Success", f"Injection well fluid composition saved with units: {unit_selected_inj}")  
+    messagebox.showinfo("Success", f"Injection well ({IDI}) fluid composition saved successfully")  
 
 # --- Buttons ---  
 add = customtkinter.CTkButton(compositionI, text="Add", command=lambda: [regcompinj(), compositionI.quit()])  
@@ -252,6 +252,8 @@ selected_label.pack(pady=(0, 20))
 
 # Run the CustomTkinter main loop
 reservoir.mainloop()
+
+
 # --- Parameters GUI ---
 window = customtkinter.CTk()
 window.title("Parameters")
@@ -290,10 +292,10 @@ GAS_PHASE 1
 -fixed pressure
 -pressure    1.013
 -temperature 20
-O2(g) 0.21.224
+O2(g) 0.21224
 CO2(g) 0.0004052
 N2(g) 0.7904
-Ar(g) 0.094209
+
 
 end
 Save solution 1
@@ -465,7 +467,6 @@ df3 = pd.read_csv(datainput, on_bad_lines='warn')
 df3.to_csv(inputname,index=False) 
 
 phreeqc_command=f"C:/phreeqc/phreeqc.exe {inputname} output.dat PHREEQC_mod_with_magnetite_without_feoh3.DAT"
-#phreeqc_command=f"C:/phreeqc/phreeqc.exe Lenti_B52_Lenti_B51.dat output.dat PHREEQC_mod_with_magnetite_without_feoh3.DAT"
 
 
 os.system(phreeqc_command)
@@ -485,8 +486,8 @@ ironhydro_vld = ironhydro_molL*ironhydro_molarweight/ironhydro_density/1000*flow
 
 gp_diameter_in = float(gp_diameter_in)
 gp_diameter_out = float(gp_diameter_out)
-
-ringv = (gp_diameter_out/2)**2*3.14*75.5-(gp_diameter_in/2)**2*3.14*75.50 #ring space volume CALCULATE FROM INPPUT
+screened_length = float(screened_length)
+ringv = (gp_diameter_out/2)**2*3.14*screened_length-(gp_diameter_in/2)**2*3.14*screened_length #ring space volume CALCULATE FROM INPPUT
 
 iniporvol = ringv * porosity
 
@@ -497,8 +498,6 @@ T = np.linspace(0, endtime, num=steps) #numpy.linspace(start, stop, num=50, endp
 
 dT = T[1]
 porosity = 0.3
-ringv = (gp_diameter_out/2)**2*3.14*75.5-(gp_diameter_in/2)**2*3.14*75.50 #ring space volume CALCULATE FROM INPPUT
-
 iniporvol = ringv * porosity
 
 newporvol = [0] * len(T)
@@ -510,10 +509,7 @@ for j in range(1,len(T)):
 
 newporosity = np.asarray(newporvol)/np.asarray(ringv)
 print(newporosity)
-#newporvolume[j] = iniporvol - V_new_c[j]
-#newporosity[j] = newporvolume[j]/ringv 
 
-#plt.plot(T,newporosity)
 perm = (sphericity)**2*((newporosity)**3*(grainsize)**2)/(180*(1-newporosity)**2)
 
 
