@@ -458,8 +458,9 @@ SELECTED_OUTPUT 1
     -reset                false
     -equilibrium_phases   Calcite  Fe(OH)3(a)
 """
-flowrate_day = flowrate*24*60
+
 inputname = f"{IDI}_{IDP}.dat"
+
 
 print(command)
 datainput = StringIO(command)
@@ -467,11 +468,12 @@ df3 = pd.read_csv(datainput, on_bad_lines='warn')
 df3.to_csv(inputname,index=False) 
 
 phreeqc_command=f"C:/phreeqc/phreeqc.exe {inputname} output.dat PHREEQC_mod_with_magnetite_without_feoh3.DAT"
-
+#phreeqc_command=f"C:/phreeqc/phreeqc.exe Lenti_B52_Lenti_B51.dat output.dat PHREEQC_mod_with_magnetite_without_feoh3.DAT"
 
 os.system(phreeqc_command)
 out = pd.read_fwf("output.sel", colspecs='infer')
 
+flowrate_day = flowrate*24*60
 Calcite_molL = out["Calcite"][0]
 ironhydro_molL = out["Fe(OH)3(a)"][0]
 
@@ -542,19 +544,25 @@ ax2.tick_params(axis='y', labelcolor='b')
 # Set the secondary y-axis (for perm) to logarithmic
 ax2.set_yscale('log')
 
+zero_porosity_indices = np.where(newporosity <= 0)[0]
+if zero_porosity_indices.size > 0:
+    zero_porosity_time = np.ceil(T[zero_porosity_indices[0]])
+    ax1.axvline(x=zero_porosity_time, color='r', linestyle='--',
+                label=f'Porosity = 0 at {zero_porosity_time:.0f} days',
+                linewidth=2, alpha=0.7)
 
-zero_porosity_time = np.ceil(T[np.where(newporosity <= 0)[0]])
-# Add a vertical line where porosity reaches zero
+half_porosity_value = newporosity[0] / 2
+half_porosity_indices = np.where(newporosity <= half_porosity_value)[0]
+if half_porosity_indices.size > 0:
+    half_porosity_time = np.ceil(T[half_porosity_indices[0]])
+    ax1.axvline(x=half_porosity_time, color='orange', linestyle='--',
+                label=f'Porosity = 50% at {half_porosity_time:.0f} days',
+                linewidth=2, alpha=0.7)
 
-if zero_porosity_time.size > 0:  # Check if there is at least one occurrence
-    plt.axvline(x=zero_porosity_time[0], color='r', linestyle='--', label=f'Porosity = 0 at {zero_porosity_time[0]:.0f} days', linewidth=2, alpha=0.7)
-
-# Add the legend, ensuring it includes all labels
 ax1.legend(loc='lower center', bbox_to_anchor=(0.1, -0.4), frameon=True)
-ax2.legend(loc='lower left', bbox_to_anchor=(0.3, -0.4), frameon=True)
-# Adjust layout to make space for the legend
-plt.tight_layout()
+ax2.legend(loc='lower left', bbox_to_anchor=(0.5, -0.4), frameon=True)
 
+plt.tight_layout()
 
 #plt.title("Porosity and permeability degradation over time")
 plt.show()
