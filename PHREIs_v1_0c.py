@@ -571,7 +571,7 @@ minerals = [
 ]
 
 # --- Default selected minerals ---
-default_minerals = ["Fe(OH)3(a)", "Calcite", "Quartz", "K-mica", "Albite", "Illite", "Chlorite(14A)"]
+default_minerals =  ["Quartz", "Calcite", "Albite", "Illite", "Chlorite(14A)", "K-mica", "Dolomite"]
 
 def kozeny_carman_perm(phi, d, sphericity):
     """
